@@ -1,0 +1,32 @@
+<h4>Marionette: Upload puppet log</h4>
+
+<ul class="nav nav-tabs">
+  <li role="presentation" class="active"><a href="#">Upload</a></li>
+  <li role="presentation"><a href="#">Visualise</a></li>
+</ul>
+<p>
+<% if flash[:error] %>
+    <div class="bg-danger"><%= flash[:error] %></div>
+<% end %>	
+
+<%= form_tag("/chart", method: "post") do %>
+ 	<%= submit_tag("Chart", class: "btn btn-primary mb-2") %> <%= submit_tag("Clear", { :name => 'reset', :id => 'reset_button', :type => "reset", class: "btn btn-default"}) %>
+ 	<p>
+ 	<div class="form-group">
+ 		<div class="checkbox">
+	 		<label>
+	 			<%= check_box_tag(:puppet_v3, 1, false, class: "checkbox") %> Logfile is Puppet V3
+	 		</label>
+		</div>
+	</div>
+	<div class="form-group">
+		<%= label_tag(:q, "Puppet log file extract:") %>
+		<%= text_area(:logfile, :body, cols: 80, rows: 40, class: "form-control") %>
+	</div>
+	
+   
+<% end %>
+
+
+
+
