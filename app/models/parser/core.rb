@@ -21,7 +21,7 @@ module Parser
 					@starttime = Time.parse(start)
 					host = m.captures.first # hostname
 
-					pp host
+					# pp host
 				end
 
 				if block_start_matcher.match(l)
