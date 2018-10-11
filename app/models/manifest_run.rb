@@ -5,14 +5,15 @@ class ManifestRun
 	attr_reader :starttime, :host, :endtime
 
 	def initialize(logfile, options = { version: :v5 })
+
+		Rails.logger.info "+ Parsing Puppet version: #{options[:version]}"
+
 		case options[:version]
 		when :v5
-			@parser = Parser::Puppet5Parser.new(logfile)
+			@parser = Parser::Puppet5Parser.new(logfile, options)
 		else
-			@parser = Parser::Puppet3Parser.new(logfile)
+			@parser = Parser::Puppet3Parser.new(logfile, options)
 		end
-
-		
 	end
 
 	def parse!

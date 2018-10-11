@@ -1,10 +1,11 @@
 module Parser
 
 	class Core
-		attr_reader :results, :host, :starttime, :endtime
+		attr_reader :results, :host, :starttime, :endtime, :options
 
-		def initialize(logfile)
+		def initialize(logfile, options = {})
 			@source = logfile
+			@options = options
 		end
 
 		def parse!
@@ -20,8 +21,6 @@ module Parser
 					start = "#{l[0..18]}"
 					@starttime = Time.parse(start)
 					host = m.captures.first # hostname
-
-					# pp host
 				end
 
 				if block_start_matcher.match(l)
@@ -34,13 +33,37 @@ module Parser
 					start = l[0..18]
 				end
 
+
+
 				if m = end_matcher.match(l)
+					Rails.logger.info("+ Found endpoint: #{l[0..18]}")
 					@endtime = Time.parse(l[0..18])
 				end
 			end
 
+			if options[:merge_similar] && options[:merge_similar] == "1"
+				Rails.logger.info("+ Merging similar catalog entries")
+				catalog = merge catalog
+			end
+
 			@results = Layout.layout(catalog)
 			@host = host
+		end
+
+		def merge(precursor)
+			merged = {}
+
+			precursor.each do |a|
+				k = a[0]
+				if merged[k]
+					merged[k][2] = a[2] if a[2]
+					merged[k][3] += a[3]
+				else
+					merged[k] = a
+				end
+			end
+
+			merged.values
 		end
 
 		def start_matcher

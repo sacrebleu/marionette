@@ -8,6 +8,10 @@
 <% if flash[:error] %>
     <div class="bg-danger"><%= flash[:error] %></div>
 <% end %>	
+<% if flash[:notice] %>
+    <div class="bg-info"><%= flash[:notice] %></div>
+<% end %>	
+<br>
 
 <%= form_tag("/chart", method: "post") do %>
  	<%= submit_tag("Chart", class: "btn btn-primary mb-2") %> <%= submit_tag("Clear", { :name => 'reset', :id => 'reset_button', :type => "reset", class: "btn btn-default"}) %>
@@ -17,6 +21,11 @@
 	 		<label>
 	 			<%= check_box_tag(:puppet_v3, 1, false, class: "checkbox") %> Logfile is Puppet V3
 	 		</label>
+		</div>
+		<div class="checkbox">
+			<label>
+				<%= check_box_tag(:merge_similar, 1, true, class: "checkbox") %> Merge similar entries
+			</label>
 		</div>
 	</div>
 	<div class="form-group">
