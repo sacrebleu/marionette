@@ -28,7 +28,8 @@ if [[ -z "${version}" ]]; then
 fi
 
 echo "version: $version"
-docker build . -t $IMAGE/$version
+docker build . -t $version\
+docker tag $IMAGE:$version $IMAGE:latest 
 
 # tag it
 pushd .
@@ -39,13 +40,8 @@ git tag -a "$version" -m "version $version"
 git push
 git push --tags
 
-docker tag $IMAGE:$version $IMAGE/latest
-docker tag $REPO/$IMAGE:latest $REPO/$IMAGE:$version
-# push it
-
 docker tag $IMAGE:latest $REPO/$IMAGE:latest
 docker tag $IMAGE:$version $REPO/$IMAGE:$version 
 docker push $REPO/$IMAGE:latest
 docker push $REPO/$IMAGE:$version
-docker tag $IMAGE:$version $REPO/$IMAGE:$version  
 
