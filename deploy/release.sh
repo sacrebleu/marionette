@@ -22,16 +22,14 @@ fi
 
 IMAGE=marionette
 
-git pull
-
 version=`cat .version`
 if [[ -z "${version}" ]]; then
     echo "Could not determine version, aborting."
 fi
 
 echo "version: $version"
-# run build
-./build.sh
+docker build . -t $IMAGE/$version
+
 # tag it
 pushd .
 
