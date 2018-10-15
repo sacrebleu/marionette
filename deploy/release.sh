@@ -28,7 +28,7 @@ if [[ -z "${version}" ]]; then
 fi
 
 echo "version: $version"
-docker build . -t $version
+docker build . -t $IMAGE:$version
 docker tag $IMAGE:$version $IMAGE:latest 
 
 # tag it
