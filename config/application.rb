@@ -20,5 +20,7 @@ module Marionette
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+
+    config.marionette_version = File.read("#{Rails.root}/.version").strip
   end
 end

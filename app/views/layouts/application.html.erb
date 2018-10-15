@@ -13,5 +13,10 @@
     <div class="container-fluid">
     <%= yield %>
     </div>
+    <footer class="page-footer font-small blue pt-4">
+      <div class="container-fluid text-left text-md-left">
+        Marionette version <%= Rails.configuration.marionette_version %> 
+      </div>
+    </footer>
   </body>
 </html>
