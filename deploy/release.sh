@@ -38,11 +38,12 @@ git commit -m "Release version $version"
 git tag -a "$version" -m "version $version"
 git push
 git push --tags
-# docker tag $REPO/$IMAGE:latest $REPO/$IMAGE:$version
+
+docker tag $REPO/$IMAGE:latest $REPO/$IMAGE:$version
 # push it
 
-docker tag $IMAGE:latest $REPO/marionette:latest
-docker tag $IMAGE:$version $REPO/marionette:$version 
+docker tag $IMAGE:latest $REPO/$IMAGE:latest
+docker tag $IMAGE:$version $REPO/$IMAGE:$version 
 docker push $REPO/$IMAGE:latest
 docker push $REPO/$IMAGE:$version
 docker tag $IMAGE:$version $REPO/$IMAGE:$version  
