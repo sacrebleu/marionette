@@ -7,8 +7,18 @@ services:
 
 language: ruby
 
+cache:
+  bundler
+  directories:
+  - /home/travis/.rvm/  
+  - $HOME/.local
+
 rvm:
 - 2.5.1
+
+before_install:
+  - pip install --local aws-cli
+  - export PATH=$PATH:$HOME/.local/bin
 
 deploy:
   provider: script
