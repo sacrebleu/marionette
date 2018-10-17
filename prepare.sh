@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+echo "Installing ssl upgrades"
+pip install pyopenssl ndg-httpsclient pyasn1
 
 echo "Installing awscli"
 
