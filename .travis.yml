@@ -10,8 +10,7 @@ cache:
   bundle: true
   directories:
   - node_modules # NPM packages
-  - /vendor/bundle
-  - /.local
+  - ./vendor/bundle
 
 rvm:
 - 2.5.1
