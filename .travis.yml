@@ -6,11 +6,17 @@ services:
 - docker
 
 language: ruby
+cache: 
+  bundle: true
+  directories:
+  - node_modules # NPM packages
+  - /vendor/bundle
+  - /.local
 
 rvm:
 - 2.5.1
 
-before_install:
+before_deploy:
 - ./prepare.sh
 
 deploy:
