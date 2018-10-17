@@ -35,32 +35,26 @@ IMAGE=marionette
 version=`cat .version`
 if [[ -z "${version}" ]]; then
     echo "Could not determine version, aborting."
+    exit 1
 fi
 
-echo "version: $version"
+regversion=$( aws ecr describe-images --registry-id 564623767830  --repository-name marionette --query 'sort_by(imageDetails,& imagePushedAt)[-1].imageTags[-1]')
 
-if [[ -n "${PACKAGE}" ]]; then 
-  echo "packaging $REPO/$IMAGE:$version"
+echo "Git repo version: $version"
+echo "Registry latest version: ${regversion}"
 
-  docker build . -t $IMAGE:$version
-  docker tag $IMAGE:$version $IMAGE:latest
-
-  # tag it
-  pushd .
-
-  git add -A
-  git commit -m "Release version $version"
-  git tag -a "$version" -m "version $version"
-  git push
-  git push --tags
-
-  docker tag $IMAGE:latest $REPO/$IMAGE:latest
-  docker tag $IMAGE:$version $REPO/$IMAGE:$version
-  docker push $REPO/$IMAGE:latest
-  docker push $REPO/$IMAGE:$version
+if [[ "${version}" = "${regversion}" ]]; then 
+  echo "Latest version already exists in registry - did you remember to bump the version?"
+  exit 0
 fi
 
-if [[ -n "${DEPLOY}" ]]; then
-  echo "Deploying ${IMAGE}=${REPO}/${IMAGE}:${version} to deployment/${IMAGE}"
-  kubectl set image deployment/${IMAGE} ${IMAGE}=${REPO}/${IMAGE}:${version} --record && kubectl rollout status deployment/$IMAGE
-fi 
+docker build . -t $IMAGE:$version
+docker tag $IMAGE:$version $IMAGE:latest
+
+docker tag $IMAGE:latest $REPO/$IMAGE:latest
+docker tag $IMAGE:$version $REPO/$IMAGE:$version
+docker push $REPO/$IMAGE:latest
+docker push $REPO/$IMAGE:$version
+
+echo "Deploying ${IMAGE}=${REPO}/${IMAGE}:${version} to deployment/${IMAGE}"
+kubectl set image deployment/${IMAGE} ${IMAGE}=${REPO}/${IMAGE}:${version} --record && kubectl rollout status deployment/$IMAGE

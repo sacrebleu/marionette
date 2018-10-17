@@ -1,18 +1,14 @@
 sudo: true
 dist: trusty
-
 services:
-  - docker
-
+- docker
 language: ruby
 rvm:
-  - 2.5.1
-
-deploy: 
+- 2.5.1
+deploy:
   skip_cleanup: true
-
 jobs:
   include:
-    - stage: test
-    
-    - stage: build docker image
+  - stage: run tests
+  - stage: release if newer than version already deployed
+    script: ./release.sh -r ${REPO}
