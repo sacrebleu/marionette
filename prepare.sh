@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
+echo "Python version $(python --version)"
+
 echo "Installing ssl upgrades"
 
 export PATH=$PATH:$HOME/.local/bin
 
-pip install --user yopenssl ndg-httpsclient pyasn1
+sudo apt update && sudo apt upgrade openssl
 
 echo "Installing awscli"
 
