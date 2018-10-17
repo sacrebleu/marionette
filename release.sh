@@ -38,7 +38,7 @@ echo "| Docker: $(docker --version)"
 echo "| Kubectl: $(kubectl version --short --client)"
 echo "| AWS cli: $(aws --version)"
 
-docker_login=$($aws ecr get-login --region eu-west-1 | sed 's/ -e none//')
+docker_login=$(aws ecr get-login --region eu-west-1 | sed 's/ -e none//')
 echo "Logging into ECR with ${docker_login}"
 eval $docker_login
 
