@@ -5,7 +5,7 @@ echo "Installing ssl upgrades"
 
 export PATH=$PATH:$HOME/.local/bin
 
-sudo apt update && sudo apt upgrade openssl
+sudo apt update && sudo apt-get install --only-upgrade openssl
 
 echo "Installing awscli"
 

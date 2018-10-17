@@ -1,6 +1,5 @@
-sudo: true
-
 dist: trusty
+sudo: required
 
 services:
 - docker
