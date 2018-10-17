@@ -1,7 +1,6 @@
-while getopts ":r:pd" opt; do
+while getopts ":r:" opt; do
   case $opt in
     r)
-      # echo "-ra was triggered, Parameter: $OPTARG" >&2
       REPO=$OPTARG
       ;;
     \?)
@@ -11,12 +10,6 @@ while getopts ":r:pd" opt; do
     :)
       echo "Option -$OPTARG requires an argument." >&2
       exit 1
-      ;;
-    p)
-      PACKAGE=1
-      ;;
-    d)
-      DEPLOY=1
       ;;
     *)
       echo "Unknown argument $opt"
@@ -37,6 +30,8 @@ if [[ -z "${version}" ]]; then
     echo "Could not determine version, aborting."
     exit 1
 fi
+
+eval $(aws ecr get-login --region eu-west-1) 
 
 regversion=$( aws ecr describe-images --registry-id 564623767830  --repository-name marionette --query 'sort_by(imageDetails,& imagePushedAt)[-1].imageTags[-1]')
 
