@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 echo "Installing ssl upgrades"
-pip install pyopenssl ndg-httpsclient pyasn1
+
+export PATH=$PATH:$HOME/.local/bin
+
+pip install --user yopenssl ndg-httpsclient pyasn1
 
 echo "Installing awscli"
 
@@ -17,7 +20,6 @@ curl -LO https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/lin
 chmod +x ./aws-iam-authenticator
 sudo mv ./aws-iam-authenticator /usr/local/bin/aws-iam-authenticator
 
-export PATH=$PATH:$HOME/.local/bin
 
 mkdir -p ${HOME}/.aws
 cat <<-EOF > ${HOME}/.aws/config
