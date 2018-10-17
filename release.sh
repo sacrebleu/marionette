@@ -46,7 +46,7 @@ docker_login=$(aws ecr get-login --region eu-west-1 | sed 's/ -e none//')
 echo "Logging into ECR with ${docker_login}"
 eval $docker_login
 
-regversion=$(aws ecr describe-images --registry-id 564623767830  --repository-name marionette --query 'sort_by(imageDetails,& imagePushedAt)[-1].imageTags[-1]')
+regversion=$(aws ecr describe-images --registry-id 564623767830  --repository-name marionette --query 'sort_by(imageDetails,& imagePushedAt)[-1].imageTags' | grep -e [0-9] | sed 's/[ ",]//g')
 
 echo "Git repo version: $version"
 echo "Registry latest version: ${regversion}"

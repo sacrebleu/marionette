@@ -26,4 +26,7 @@ EOF
 echo "Configuring access for ${CLUSTER_NAME}"
 aws eks update-kubeconfig --name ${CLUSTER_NAME} --region ${REGION}
 
+echo "Generated kube config:"
+cat ${HOME}/.kube/config
+
 echo "Done"
