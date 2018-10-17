@@ -25,6 +25,9 @@ if [[ -z "${REPO}" ]]; then
     exit 1
 fi
 
+AWS_REGION=${REGION}
+AWS_DEFAULT_REGION=${REGION}
+
 IMAGE=marionette
 
 version=`cat .version`
@@ -43,7 +46,7 @@ docker_login=$(aws ecr get-login --region eu-west-1 | sed 's/ -e none//')
 echo "Logging into ECR with ${docker_login}"
 eval $docker_login
 
-regversion=$( aws ecr describe-images --registry-id 564623767830  --repository-name marionette --query 'sort_by(imageDetails,& imagePushedAt)[-1].imageTags[-1]')
+regversion=$(aws ecr describe-images --registry-id 564623767830  --repository-name marionette --query 'sort_by(imageDetails,& imagePushedAt)[-1].imageTags[-1]')
 
 echo "Git repo version: $version"
 echo "Registry latest version: ${regversion}"
@@ -55,6 +58,8 @@ fi
 
 docker build . -t $IMAGE:$version
 docker tag $IMAGE:$version $IMAGE:latest
+
+echo "Preparing to publish ${IMAGE}:${version} to ${REPO}/${IMAGE}:${version}" 
 
 docker tag $IMAGE:latest $REPO/$IMAGE:latest
 docker tag $IMAGE:$version $REPO/$IMAGE:$version
