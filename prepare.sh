@@ -17,4 +17,13 @@ sudo mv ./aws-iam-authenticator /usr/local/bin/aws-iam-authenticator
 
 export PATH=$PATH:$HOME/.local/bin
 
+mkdir -p ${HOME}/.aws
+cat <<-EOF > ${HOME}/.aws/config
+[default]
+region = ${REGION}
+EOF
+
+echo "Configuring access for ${CLUSTER_NAME}"
+aws eks update-kubeconfig --name ${CLUSTER_NAME} --region ${REGION}
+
 echo "Done"

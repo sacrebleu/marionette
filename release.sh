@@ -1,3 +1,5 @@
+# /usr/bin/env bash
+
 while getopts ":r:" opt; do
   case $opt in
     r)
