@@ -12,6 +12,8 @@ cache:
   - node_modules # NPM packages
   - ./vendor/bundle
 
+python:
+- 2.7.13
 rvm:
 - 2.5.1
 
