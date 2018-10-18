@@ -14,8 +14,7 @@ cache:
 rvm:
 - 2.5.1
 
-before_install:
-- echo "Running before_install"
+before_deploy:
 - ./prepare.sh
 
 deploy:

@@ -1,16 +1,5 @@
 #!/usr/bin/env bash
-echo "Python version $(python --version)"
-
-echo "Installing ssl upgrades"
-
 export PATH=$PATH:$HOME/.local/bin
-
-# force python3
-sudo apt-get install python3
-sudo unlink /usr/local/bin/python
-sudo ln -s /usr/local/bin/python3.3 /usr/local/bin/python
-
-sudo apt update && sudo apt-get install --only-upgrade openssl
 
 echo "Installing awscli"
 
@@ -35,7 +24,7 @@ region = ${REGION}
 EOF
 
 echo "Configuring access for ${CLUSTER_NAME}"
-aws eks update-kubeconfig --name ${CLUSTER_NAME} --region ${REGION}
+aws --no-verify-ssl eks update-kubeconfig --name ${CLUSTER_NAME} --region ${REGION}
 
 echo "Generated kube config:"
 cat ${HOME}/.kube/config
