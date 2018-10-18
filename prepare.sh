@@ -5,6 +5,11 @@ echo "Installing ssl upgrades"
 
 export PATH=$PATH:$HOME/.local/bin
 
+# force python3
+sudo apt-get install python3
+sudo unlink /usr/local/bin/python
+sudo ln -s /usr/local/bin/python3.3 /usr/local/bin/python
+
 sudo apt update && sudo apt-get install --only-upgrade openssl
 
 echo "Installing awscli"
