@@ -5,14 +5,15 @@ services:
 - docker
 
 language: ruby
+
 cache: 
   bundle: true
   directories:
   - node_modules # NPM packages
   - ./vendor/bundle
 
-python:
-- 2.7.13
+python: "3.5"
+
 rvm:
 - 2.5.1
 
